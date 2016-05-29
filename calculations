@@ -1,0 +1,43 @@
+Utility cost calculation methodology
+
+Electricity
+===========
+
+From:
+http://www.pge.com/tariffs/tm2/pdf/ELEC_SCHEDS_E-1.pdf
+
+Pacific Gas and Electric Schedule E-1, Residential Services
+
+Along the coast we live in Zone "T" for which the "base line" "B"
+(for 'basic') (E6/E1) usage in kWh/day is:
+    Summer (May...Oct)  7.0  14.0  21.0
+    Winter (Nov...Apr)  8.5  17.0  25.5
+
+The cost per kWh for up to the base line usage is  $0.18212/kWh
+From base line to twice base line usage cost is    $0.25444/kWh
+Usage in excess of two times base line costs     $0.37442/kWh
+
+
+Propane
+=======
+
+Meter reads in cubic feet.
+From:
+https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwj9xIeC-83LAhUG92MKHWOEBBIQFggdMAA&url=http%3A%2F%2Fwww.edcgov.us%2FGovernment%2FAg%2FPropane_Conversion_Chart.aspx&usg=AFQjCNFSq8UUvwTExkGq_4SSyQmdszDKbA&sig2=3z3bhV6tNB_VVqRHZZGBrw
+
+1 cubic foot propane = 0.0278 gallons propane
+Therefore cost of a cubic foot of propane is 0.0278 x price per gal.
+
+Currently (as of March, 2016) propane is $4.079/gal == $0.1134/cu-ft.
+
+
+Meter Readings
+==============
+
+The initial readings have been done March 19th, 2016 and the intent
+is to read the meters **on or close to the first** of each month
+beginning May, 2016.   
+** Ammended to "towards the end".
+
+See file readings.csv.
+

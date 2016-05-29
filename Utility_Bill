@@ -1,0 +1,29 @@
+
+RAW DATA:
+Date          cuft   Price/gal    kWh    Paid      Comments
+----------   ------  ---------   -----  -------  --------------- 
+2016-03-19     30.1       N/A    59466      N/A  Initial reading
+2016-04-16    853.7    $4.079    59708  $181.35  1st reading 
+2016-05-23   1691.8    $3.379    60063    $0.00  2nd reading
+
+UTILITIES REPORT
+
+Date Range
+    Propane       cuft  Cost
+    Electricity   kWh   Cost
+  Total | Paid | Owing
+
+from 2016-03-19 to 2016-04-16
+    853.7 - 30.1 = 823.6   $93.39
+    59708.0 - 59466.0 = 242.0   $44.36
+  $137.76 | $181.35 | $-43.59
+
+from 2016-04-16 to 2016-05-23
+    1691.8 - 853.7 = 838.1   $78.73
+    60063.0 - 59708.0 = 355.0   $70.08
+  $148.80 | $0.00 | $105.21
+
+
+Amount owed at end of current rent cycle: $105.21.
+(The last dollar amount given above.)
+
