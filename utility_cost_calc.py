@@ -1,15 +1,21 @@
 #!/usr/bin/env python3
 
-#  file: pge.py
+#  file: utility_cost_calc.py
 """
 Reads a csv file containing meeter readings.
-Returns a report.
+The name of the csv file can be provided as a parameter.
+If not parameter is provided, 'readings.csv' is the default.
+Returns a report to standard output.
+Typical usage:
+    ./utility_cost_calc.py [input.csv] >> statement.txt
+The input file must be of a format shown in accompanying csv files.
 See README.rst for details.
 Released under the GNU General Public License of your choosing.
 ©Alex Kleider alex@kleider.ca
 """
-import datetime
+import sys
 import csv
+import datetime
 
 readings_file = "readings.csv"
 DEFAULT_CURRENCY_SIGN = '$'
@@ -43,7 +49,7 @@ month_lengths = {2: 28, 1: 31,  #| Additional code
                  6: 30, 5: 31,  #| length of February
                  9: 30, 7: 31,  #| i.e. the leap yr
                 11: 30, 8: 31,  #| algorithm:
-                       12: 31}  #| days_in_february().
+                10: 31,12: 31}  #| days_in_february().
 
 test_data = (
         ("2016-03-19","2016-04-16", 238.0),
@@ -70,9 +76,9 @@ def days_in_february(year):
     if yr < 2000:
         print("Probably an invalid year.")
         return
-    if year%400==0: return 29 # Divisible by 400: Leap year   2000
-    if year%100==0: return 28 # Divisible by 100: ! leap year 2100
-    if year%4==0: return 29   # Divisible by 4  : Leap year   2008
+    if yr%400==0: return 29 # Divisible by 400: Leap year   2000
+    if yar%100==0: return 28 # Divisible by 100: ! leap year 2100
+    if yar%4==0: return 29   # Divisible by 4  : Leap year   2008
     else: return 28           # ! divisible by 4: ! leap year 2009
 
 def daysafter(date):
@@ -201,9 +207,10 @@ def get_readings(readings_file):
     """
     with open(readings_file) as csvfile:
         reader = csv.DictReader(csvfile)
-        ret = ["""\nRAW DATA:
+        ret = ["""\n{}\nRAW DATA:
 Date          cuft   Price/gal    kWh    Paid      Comments
-----------   ------  ---------   -----  -------  --------------- """]
+----------   ------  ---------   -----  -------  --------------- """
+                    .format(readings_file)]
         for row in reader:
             ret.append(
 "{} {:>8}{:>10}{:>9}{:>9}  {}"
@@ -278,11 +285,11 @@ def get_report(readings_file):
         reader = csv.DictReader(csvfile)
         report = ["\nUTILITIES REPORT\n"]
         report.append(
-"""{}
+"""{}\n{}
     {:<12}  cuft  Cost
     {:<12}  kWh   Cost
   {} | {} | {}\n"""
-.format(
+.format(readings_file,
 "Date Range", "Propane", "Electricity", "Total", "Paid", "Owing"))
         row_number = 0
         owing = 0
@@ -322,12 +329,15 @@ def get_report(readings_file):
         total_cost, paid, owing) )
                 row_number += 1
         report.append("""
-Amount owed at end of current rent cycle: ${:0.2f}.
+Amount owed at time of program run: ${:0.2f}.
 (The last dollar amount given above.)
 """.format(owing))
         return "\n".join(report)
 
 if __name__ == "__main__":
+    args = sys.argv
+    if len(args)>1:
+        readings_file = args[1]
     print(get_readings(readings_file))
     print
     print(get_report(readings_file))
