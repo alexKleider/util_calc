@@ -77,8 +77,8 @@ def days_in_february(year):
         print("Probably an invalid year.")
         return
     if yr%400==0: return 29 # Divisible by 400: Leap year   2000
-    if yar%100==0: return 28 # Divisible by 100: ! leap year 2100
-    if yar%4==0: return 29   # Divisible by 4  : Leap year   2008
+    if yr%100==0: return 28 # Divisible by 100: ! leap year 2100
+    if yr%4==0: return 29   # Divisible by 4  : Leap year   2008
     else: return 28           # ! divisible by 4: ! leap year 2009
 
 def daysafter(date):
