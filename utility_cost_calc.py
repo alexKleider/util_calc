@@ -29,20 +29,32 @@ https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwj9xIe
 gal_in_cu_ft = 0.0278  # Convert propane from cu ft to gallons.
 
 def get_propane_cost(prev_reading, cur_reading, cost):
-    return cost * gal_in_cu_ft * (cur_reading - prev_reading)
+    50667cur_reading - prev_reading)
 
 # Re: Electricity
 pge_info = """From:
 http://www.pge.com/tariffs/tm2/pdf/ELEC_SCHEDS_E-1.pdf
 'Basic' (E6/E1) usage in kWh/day is:
 """
+old_rates = """
 summer_base = 7.0  #| 'Basic' (E6/E1)
 winter_base = 8.5  #| usage in kWh/day.
-
 winter_months = [11, 12, 1, 2, 3,4]
+"""
+new_rates = """
+See accompanying file "calculations" for new rates
+as of before November 2019.
 tier1_price = 0.18212
 tier2_price = 0.25444
 tier3_price = 0.37442
+"""
+summer_base = 6.8  #| 'Basic' (E6/E1)
+winter_base = 8.2  #| usage in kWh/day.
+
+winter_months = [10, 11, 12, 1, 2, 3, 4, 5]
+tier1_price = 0.22981
+tier2_price = 0.28920
+tier3_price = 0.50667
 
 month_lengths = {2: 28, 1: 31,  #| Additional code
                  4: 30, 3: 31,  #| accounts for
@@ -205,19 +217,24 @@ def get_readings(readings_file):
     """
     Returns a string showing content of the CSV input file.
     """
+#   print("Opening {}".format(readings_file))
     with open(readings_file) as csvfile:
         reader = csv.DictReader(csvfile)
-        ret = ["""\n{}\nRAW DATA:
+#       print(reader.fieldnames)
+        ret = ["""\nReading the Following Raw Data from: {}\n
 Date          cuft   Price/gal    kWh    Paid      Comments
 ----------   ------  ---------   -----  -------  --------------- """
                     .format(readings_file)]
         for row in reader:
-            ret.append(
-"{} {:>8}{:>10}{:>9}{:>9}  {}"
-            .format(row['Date'], row['cu_ft'],
-                row['current price of propane/gal'] ,row['kwh'],
-                row['paid'], row['comment']))
-        return '\n'.join(ret)
+            line2add = (
+"{Date} {cu_ft:>8}{kwh:>10}{propane_cost_per_gal:>9}{paid:>9} {comment}"
+            .format(**row))
+            ret.append(line2add)
+#           print("Appending: '{}'".format(line2add))
+#           .format(row['Date'], row['cu_ft'],
+#               row['current price of propane/gal'] ,row['kwh'],
+#               row['paid'], row['comment']))
+    return '\n'.join(ret)
 
 def testing():
     """
@@ -244,7 +261,7 @@ def testing():
         cur_date = get_date(cur)
         print(prev_date, cur_date)
         print(get_base_usage(prev_date, cur_date), result)
-        print
+        print()
     print("Expect 28 x 6:")
     for year in (2009, 2010, 2011, 1800, 1900, 2100):
         print(days_in_february(year))
@@ -308,7 +325,7 @@ def get_report(readings_file):
                 cur_gas = float(row['cu_ft'])
                 cur_kwh = float(row['kwh'])
                 gas_price = float(normalizeValue(
-                            row['current price of propane/gal']))
+                            row['propane_cost_per_gal']))
                 paid = float(normalizeValue(row['paid']))
                 comment = row['comment']
                 cost_of_propane = get_propane_cost(

@@ -1,5 +1,6 @@
 Utility cost calculation methodology
 (These are updated rates (electricity only) as of Mar 2018.)
+{{ New rates as of before November 2019 }}
 
 Electricity
 ===========
@@ -14,9 +15,12 @@ Along the coast we live in Zone "T" for which the "base line" "B"
     Summer (May...Oct)  7.0  14.0  21.0
     Winter (Nov...Apr)  8.5  17.0  25.5
 
-The cost per kWh for up to the base line usage is $0.20078/kWh
-From base line to twice base line usage cost is   $0.27748/kWh
-Usage in excess of two times base line costs      $0.40337/kWh
+{{  Summer (Jun...Sep)  6.8   x2    x3  [1]  }}
+{{  Winter (Oct...May)  8.2   x2    x3       }}
+
+The cost per kWh for up to the base line usage is $0.20078/kWh {{0.22981}}
+From base line to twice base line usage cost is   $0.27748/kWh {{0.28920}}
+Usage in excess of two times base line costs      $0.40337/kWh {{0.50667}}
 
 
 Propane
@@ -42,3 +46,7 @@ just before we leave on the 29th (March 2018,) which ever comes first.
 
 See file readings.csv.
 
+
+{
+[1] https://www.pge.com/en_US/residential/rate-plans/rate-plan-options/tiered-base-plan/understanding-baseline-allowance.page?WT.mc_id=Vanity_baseline#baselineamount
+}
