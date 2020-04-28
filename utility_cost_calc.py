@@ -29,7 +29,7 @@ https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwj9xIe
 gal_in_cu_ft = 0.0278  # Convert propane from cu ft to gallons.
 
 def get_propane_cost(prev_reading, cur_reading, cost):
-    50667cur_reading - prev_reading)
+    return cost * gal_in_cu_ft * (cur_reading - prev_reading)
 
 # Re: Electricity
 pge_info = """From:
@@ -175,6 +175,7 @@ def get_base_usage(date1, date2):
         if month == 13:
             month = 1
             year += 1
+#   print("get_base_usage is returning '{}'.".format(ret))
     return ret
 
 def get_date(s):
@@ -203,7 +204,7 @@ def get_pge_cost(kwh_used, base):
     Requires the base usage for its calculations.
     Provides closure around the tier pricing.
     """
-    if kwh_used > (2 * base):
+    if kwh_used > (base * 2):
         return ((kwh_used - 2 * base) * tier3_price
                             + base * tier2_price
                             + base * tier1_price  )
@@ -222,12 +223,12 @@ def get_readings(readings_file):
         reader = csv.DictReader(csvfile)
 #       print(reader.fieldnames)
         ret = ["""\nReading the Following Raw Data from: {}\n
-Date          cuft   Price/gal    kWh    Paid      Comments
-----------   ------  ---------   -----  -------  --------------- """
+Date          cuft   kWh    Price/gal    Paid      Comments
+----------   ------  -----  ---------   -------  --------------- """
                     .format(readings_file)]
         for row in reader:
             line2add = (
-"{Date} {cu_ft:>8}{kwh:>10}{propane_cost_per_gal:>9}{paid:>9} {comment}"
+"{Date} {cu_ft:>8}{kwh:>7}{propane_cost_per_gal:>10} {paid:>9}   {comment}"
             .format(**row))
             ret.append(line2add)
 #           print("Appending: '{}'".format(line2add))
@@ -300,13 +301,13 @@ def get_report(readings_file):
     """
     with open(readings_file) as csvfile:
         reader = csv.DictReader(csvfile)
-        report = ["\nUTILITIES REPORT\n"]
+        report = ["\n\nUTILITIES REPORT (Based on the above.)\n"]
         report.append(
-"""{}\n{}
+"""{}
     {:<12}  cuft  Cost
     {:<12}  kWh   Cost
   {} | {} | {}\n"""
-.format(readings_file,
+.format(
 "Date Range", "Propane", "Electricity", "Total", "Paid", "Owing"))
         row_number = 0
         owing = 0
