@@ -6,8 +6,10 @@ Reads a csv file containing meeter readings.
 The name of the csv file can be provided as a parameter.
 If not parameter is provided, 'readings.csv' is the default.
 Returns a report to standard output.
+
 Typical usage:
     ./utility_cost_calc.py [input.csv] >> statement.txt
+
 The input file must be of a format shown in accompanying csv files.
 See README.rst for details.
 Released under the GNU General Public License of your choosing.
